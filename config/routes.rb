@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     post 'ssh/delete', to: 'keys#delete'
 
     get 'vpn', to: 'vpn#index'
+    post 'vpn/start', to: 'vpn#start'
+    post 'vpn/stop', to: 'vpn#stop'
+    post 'vpn/restart', to: 'vpn#restart'
 
     delete  '/logout',  to: 'sessions#destroy'
 
