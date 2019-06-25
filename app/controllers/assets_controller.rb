@@ -14,7 +14,7 @@ class AssetsController < ApplicationController
     redirect_unless_bolt_on('Assets')
     @name = params[:name]
     cmd = "flight inventory show #{@name} -f diagram-markdown;"
-    @asset_data = execute(cmd)
+    @asset_data = run_command_with_clean_env(cmd)
     img_regex = /<img\ssrc=.+>/
     if @asset_data.match?(img_regex)
       parts = @asset_data.partition(img_regex)
@@ -46,19 +46,11 @@ class AssetsController < ApplicationController
   end
 
   private
-  # currently just returns stdout, this may need to be altered
-  def execute(cmd)
-    #This ';' is neccessary to force shell execution
-    #See here: https://stackoverflow.com/a/26040994/6257573
-    cmd = cmd + ';' unless cmd.match(/;$/)
-    Bundler.with_clean_env { Open3.capture3(cmd)[0] }
-  end
-
   #TODO potentially implement caching to prevent unnecssarily re-executing
   # this command
   def get_assets(cmd = 'flight inventory list')
    assets_by_type = {}
-   asset_type_list = execute(cmd).split("\n#")
+   asset_type_list = run_command_with_clean_env(cmd).split("\n#")
    asset_type_list.each do |type_list|
      next if type_list.empty?
      type_list = type_list.split("\n")

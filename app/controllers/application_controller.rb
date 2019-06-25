@@ -18,6 +18,14 @@ class ApplicationController < ActionController::Base
     system(command, out: File::NULL)
   end
 
+  # currently just returns stdout, this may need to be altered
+  def run_command_with_clean_env(cmd)
+    #This ';' is neccessary to force shell execution
+    #See here: https://stackoverflow.com/a/26040994/6257573
+    cmd = cmd + ';' unless cmd.match(/;$/)
+    Bundler.with_clean_env { Open3.capture3(cmd)[0] }
+  end
+
   def run_global_script(command, *args)
     out, err, sta = Open3.capture3(
       "bash #{ENV['ENTRYPOINT']} #{command} #{args.join(' ')}"

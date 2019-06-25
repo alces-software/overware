@@ -1,0 +1,33 @@
+<% content_for(:title) { "#{@name} - Messages" } %>
+
+<div class="card" style="width: 90%; margin: auto; margin-top: 2%; margin-bottom: 2%">
+  <h2 class="card-header" style="text-align: center"><%= @name %></h2>
+  <div class="card-body">
+    <% if @asset %>
+        <table class="table table-bordered shrink">
+          <tr>
+            <th>Status:</th>
+            <td> <%= @asset['status'] ? @asset['status'] : 'Unknown' %> </td>
+          </tr>
+        </table>
+      <% unless @asset['messages'].empty? %>
+        <hr>
+        <table class="table table-bordered center">
+          <tr>
+            <th>Received</th>
+            <th>ID</th>
+            <th>Information</th>
+          </tr>
+        <% @asset['messages'].each do |m| %>
+          <tr>
+            <td style="white-space: nowrap"><%= m['received'] %></td>
+            <td style="white-space: nowrap"><%= m['id'] %></td>
+            <td style="word-break: break-all"><%= m['text'] %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div style="text-align: center">Unable to display information for this asset.</div>
+    <% end %>
+  </div>
+</div>

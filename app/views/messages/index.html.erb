@@ -1,0 +1,30 @@
+<% content_for(:title) { 'Asset Messages' } %>
+<div class="center text-center" style="width: 90%;">
+  <div class="relative-row">
+    <h1 class="center">Asset Messages</h1>
+  </div>
+  <br>
+  <% if @assets and not @assets.empty? %>
+    <div id="accordion-assets" class="center w-25">
+      <div class="card mb-1">
+        <div class="card-header">
+          <h5 class="mb-0">Assets</h5>
+        </div>
+        <div data-parent="#accordion-assets">
+          <div class="card-body">
+            <div class="list-group">
+              <% @assets.each do |a| %>
+                <% string = a['name'] %>
+                <% suffix = a['status'] ? ' - ' + a['status'] : ' - UNKNOWN' %>
+                <% string = string + suffix %>
+                <%= link_to string, messages_path + '/' + a['name'], class: 'list-group-item list-group-item-action' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    No messages found.
+  <% end %>
+</div>

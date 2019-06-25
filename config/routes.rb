@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     get 'assets', to: 'assets#index'
     get 'assets/:name', to: 'assets#single_asset'
 
+    get 'messages', to: 'messages#index'
+    get 'messages/:name', to: 'messages#single_asset'
+
     delete  '/logout',  to: 'sessions#destroy'
 
     match '/login' => redirect('/'), via: :get
